@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salted.fish.mapper.FishBrowseRecordMapper">
+
+    <resultMap type="com.salted.fish.common.entity.FishBrowseRecord" id="FishBrowseRecordResult">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="browseType" column="browse_type"/>
+        <result property="businessCode" column="business_code"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectFishBrowseRecordVo">
+        select id, user_id, browse_type, business_code, create_time
+        from fish_browse_record
+    </sql>
+
+    <select id="selectFishBrowseRecordList" parameterType="com.salted.fish.common.entity.FishBrowseRecord" resultMap="FishBrowseRecordResult">
+        <include refid="selectFishBrowseRecordVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="userId != null  and userId != '' ">and user_id = #{userId}</if>
+            <if test="browseType != null  and browseType != '' ">and browse_type = #{browseType}</if>
+            <if test="businessCode != null  and businessCode != '' ">and business_code = #{businessCode}</if>
+            <if test="createTime != null ">and create_time = #{createTime}</if>
+        </where>
+    </select>
+
+    <select id="selectFishBrowseRecordById" parameterType="Integer" resultMap="FishBrowseRecordResult">
+        <include refid="selectFishBrowseRecordVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFishBrowseRecord" parameterType="com.salted.fish.common.entity.FishBrowseRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into fish_browse_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null  and userId != ''  ">user_id,</if>
+            <if test="browseType != null  and browseType != ''  ">browse_type,</if>
+            <if test="businessCode != null  and businessCode != ''  ">business_code,</if>
+            <if test="createTime != null  ">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null  and userId != ''  ">#{userId},</if>
+            <if test="browseType != null  and browseType != ''  ">#{browseType},</if>
+            <if test="businessCode != null  and businessCode != ''  ">#{businessCode},</if>
+            <if test="createTime != null  ">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFishBrowseRecord" parameterType="com.salted.fish.common.entity.FishBrowseRecord">
+        update fish_browse_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  and userId != ''  ">user_id = #{userId},</if>
+            <if test="browseType != null  and browseType != ''  ">browse_type = #{browseType},</if>
+            <if test="businessCode != null  and businessCode != ''  ">business_code = #{businessCode},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFishBrowseRecordById" parameterType="Integer">
+        delete
+        from fish_browse_record
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteFishBrowseRecordByIds" parameterType="String">
+        delete from fish_browse_record where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

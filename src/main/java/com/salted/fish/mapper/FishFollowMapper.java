@@ -1,0 +1,62 @@
+package com.salted.fish.mapper;
+
+import com.salted.fish.common.entity.FishFollow;
+
+import java.util.List;
+
+/**
+ * 关注/粉丝 数据层
+ *
+ * @author shop
+ * @date 2019-04-02
+ */
+public interface FishFollowMapper {
+    /**
+     * 查询关注/粉丝信息
+     *
+     * @param id 关注/粉丝ID
+     * @return 关注/粉丝信息
+     */
+    public FishFollow selectFishFollowById(Integer id);
+
+    /**
+     * 查询关注/粉丝列表
+     *
+     * @param fishFollow 关注/粉丝信息
+     * @return 关注/粉丝集合
+     */
+    public List<FishFollow> selectFishFollowList(FishFollow fishFollow);
+
+    /**
+     * 新增关注/粉丝
+     *
+     * @param fishFollow 关注/粉丝信息
+     * @return 结果
+     */
+    public int insertFishFollow(FishFollow fishFollow);
+
+    /**
+     * 修改关注/粉丝
+     *
+     * @param fishFollow 关注/粉丝信息
+     * @return 结果
+     */
+    public int updateFishFollow(FishFollow fishFollow);
+
+    /**
+     * 删除关注/粉丝
+     *
+     * @param id 关注/粉丝ID
+     * @return 结果
+     */
+    public int deleteFishFollowById(Integer id);
+
+    /**
+     * 批量删除关注/粉丝
+     *
+     * @param ids 需要删除的数据ID
+     * @return 结果
+     */
+    public int deleteFishFollowByIds(String[] ids);
+
+}

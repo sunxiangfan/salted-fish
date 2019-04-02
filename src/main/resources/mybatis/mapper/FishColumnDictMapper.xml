@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salted.fish.mapper.FishColumnDictMapper">
+
+    <resultMap type="com.salted.fish.common.entity.FishColumnDict" id="FishColumnDictResult">
+        <result property="id" column="id"/>
+        <result property="columnCode" column="column_code"/>
+        <result property="columnName" column="column_name"/>
+    </resultMap>
+
+    <sql id="selectFishColumnDictVo">
+        select id, column_code, column_name
+        from fish_column_dict
+    </sql>
+
+    <select id="selectFishColumnDictList" parameterType="com.salted.fish.common.entity.FishColumnDict" resultMap="FishColumnDictResult">
+        <include refid="selectFishColumnDictVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="columnCode != null  and columnCode != '' ">and column_code = #{columnCode}</if>
+            <if test="columnName != null  and columnName != '' ">and column_name = #{columnName}</if>
+        </where>
+    </select>
+
+    <select id="selectFishColumnDictById" parameterType="Integer" resultMap="FishColumnDictResult">
+        <include refid="selectFishColumnDictVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFishColumnDict" parameterType="com.salted.fish.common.entity.FishColumnDict" useGeneratedKeys="true" keyProperty="id">
+        insert into fish_column_dict
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="columnCode != null  and columnCode != ''  ">column_code,</if>
+            <if test="columnName != null  and columnName != ''  ">column_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="columnCode != null  and columnCode != ''  ">#{columnCode},</if>
+            <if test="columnName != null  and columnName != ''  ">#{columnName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFishColumnDict" parameterType="com.salted.fish.common.entity.FishColumnDict">
+        update fish_column_dict
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="columnCode != null  and columnCode != ''  ">column_code = #{columnCode},</if>
+            <if test="columnName != null  and columnName != ''  ">column_name = #{columnName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFishColumnDictById" parameterType="Integer">
+        delete
+        from fish_column_dict
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteFishColumnDictByIds" parameterType="String">
+        delete from fish_column_dict where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

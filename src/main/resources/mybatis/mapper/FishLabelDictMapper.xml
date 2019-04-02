@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salted.fish.mapper.FishLabelDictMapper">
+
+    <resultMap type="com.salted.fish.common.entity.FishLabelDict" id="FishLabelDictResult">
+        <result property="id" column="id"/>
+        <result property="labelCode" column="label_code"/>
+        <result property="labelName" column="label_name"/>
+    </resultMap>
+
+    <sql id="selectFishLabelDictVo">
+        select id, label_code, label_name
+        from fish_label_dict
+    </sql>
+
+    <select id="selectFishLabelDictList" parameterType="com.salted.fish.common.entity.FishLabelDict" resultMap="FishLabelDictResult">
+        <include refid="selectFishLabelDictVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="labelCode != null  and labelCode != '' ">and label_code = #{labelCode}</if>
+            <if test="labelName != null  and labelName != '' ">and label_name = #{labelName}</if>
+        </where>
+    </select>
+
+    <select id="selectFishLabelDictById" parameterType="Integer" resultMap="FishLabelDictResult">
+        <include refid="selectFishLabelDictVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFishLabelDict" parameterType="com.salted.fish.common.entity.FishLabelDict">
+        insert into fish_label_dict
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  ">id,</if>
+            <if test="labelCode != null  and labelCode != ''  ">label_code,</if>
+            <if test="labelName != null  and labelName != ''  ">label_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  ">#{id},</if>
+            <if test="labelCode != null  and labelCode != ''  ">#{labelCode},</if>
+            <if test="labelName != null  and labelName != ''  ">#{labelName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFishLabelDict" parameterType="com.salted.fish.common.entity.FishLabelDict">
+        update fish_label_dict
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="labelCode != null  and labelCode != ''  ">label_code = #{labelCode},</if>
+            <if test="labelName != null  and labelName != ''  ">label_name = #{labelName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFishLabelDictById" parameterType="Integer">
+        delete
+        from fish_label_dict
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteFishLabelDictByIds" parameterType="String">
+        delete from fish_label_dict where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

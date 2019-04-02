@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salted.fish.mapper.FishRotationMapper">
+
+    <resultMap type="com.salted.fish.common.entity.FishRotation" id="FishRotationResult">
+        <result property="id" column="id"/>
+        <result property="pictureUrl" column="picture_url"/>
+        <result property="destinationUrl" column="destination_url"/>
+        <result property="isRelease" column="is_release"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectFishRotationVo">
+        select id, picture_url, destination_url, is_release, create_time
+        from fish_rotation
+    </sql>
+
+    <select id="selectFishRotationList" parameterType="com.salted.fish.common.entity.FishRotation" resultMap="FishRotationResult">
+        <include refid="selectFishRotationVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="pictureUrl != null  and pictureUrl != '' ">and picture_url = #{pictureUrl}</if>
+            <if test="destinationUrl != null  and destinationUrl != '' ">and destination_url = #{destinationUrl}</if>
+            <if test="isRelease != null  and isRelease != '' ">and is_release = #{isRelease}</if>
+            <if test="createTime != null ">and create_time = #{createTime}</if>
+        </where>
+    </select>
+
+    <select id="selectFishRotationById" parameterType="Integer" resultMap="FishRotationResult">
+        <include refid="selectFishRotationVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFishRotation" parameterType="com.salted.fish.common.entity.FishRotation" useGeneratedKeys="true" keyProperty="id">
+        insert into fish_rotation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pictureUrl != null  and pictureUrl != ''  ">picture_url,</if>
+            <if test="destinationUrl != null  and destinationUrl != ''  ">destination_url,</if>
+            <if test="isRelease != null  and isRelease != ''  ">is_release,</if>
+            <if test="createTime != null  ">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pictureUrl != null  and pictureUrl != ''  ">#{pictureUrl},</if>
+            <if test="destinationUrl != null  and destinationUrl != ''  ">#{destinationUrl},</if>
+            <if test="isRelease != null  and isRelease != ''  ">#{isRelease},</if>
+            <if test="createTime != null  ">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFishRotation" parameterType="com.salted.fish.common.entity.FishRotation">
+        update fish_rotation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pictureUrl != null  and pictureUrl != ''  ">picture_url = #{pictureUrl},</if>
+            <if test="destinationUrl != null  and destinationUrl != ''  ">destination_url = #{destinationUrl},</if>
+            <if test="isRelease != null  and isRelease != ''  ">is_release = #{isRelease},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFishRotationById" parameterType="Integer">
+        delete
+        from fish_rotation
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteFishRotationByIds" parameterType="String">
+        delete from fish_rotation where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

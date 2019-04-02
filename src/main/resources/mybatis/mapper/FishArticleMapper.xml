@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salted.fish.mapper.FishArticleMapper">
+
+    <resultMap type="com.salted.fish.common.entity.FishArticle" id="FishArticleResult">
+        <result property="id" column="id"/>
+        <result property="articleLogoUrl" column="article_logo_url"/>
+        <result property="articleTitle" column="article_title"/>
+        <result property="articleCode" column="article_code"/>
+        <result property="columnCode" column="column_code"/>
+        <result property="userId" column="user_id"/>
+        <result property="userHeadUrl" column="user_head_url"/>
+        <result property="userNickname" column="user_nickname"/>
+        <result property="labelCode" column="label_code"/>
+        <result property="labelName" column="label_name"/>
+        <result property="isMember" column="is_member"/>
+        <result property="isRecommend" column="is_recommend"/>
+        <result property="isRelease" column="is_release"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectFishArticleVo">
+        select id,
+               article_logo_url,
+               article_title,
+               article_code,
+               column_code,
+               user_id,
+               user_head_url,
+               user_nickname,
+               label_code,
+               label_name,
+               is_member,
+               is_recommend,
+               is_release,
+               is_delete,
+               create_time,
+               update_time
+        from fish_article
+    </sql>
+
+    <select id="selectFishArticleList" parameterType="com.salted.fish.common.entity.FishArticle" resultMap="FishArticleResult">
+        <include refid="selectFishArticleVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="articleLogoUrl != null  and articleLogoUrl != '' ">and article_logo_url = #{articleLogoUrl}</if>
+            <if test="articleTitle != null  and articleTitle != '' ">and article_title = #{articleTitle}</if>
+            <if test="articleCode != null  and articleCode != '' ">and article_code = #{articleCode}</if>
+            <if test="columnCode != null  and columnCode != '' ">and column_code = #{columnCode}</if>
+            <if test="userId != null  and userId != '' ">and user_id = #{userId}</if>
+            <if test="userHeadUrl != null  and userHeadUrl != '' ">and user_head_url = #{userHeadUrl}</if>
+            <if test="userNickname != null  and userNickname != '' ">and user_nickname = #{userNickname}</if>
+            <if test="labelCode != null  and labelCode != '' ">and label_code = #{labelCode}</if>
+            <if test="labelName != null  and labelName != '' ">and label_name = #{labelName}</if>
+            <if test="isMember != null  and isMember != '' ">and is_member = #{isMember}</if>
+            <if test="isRecommend != null  and isRecommend != '' ">and is_recommend = #{isRecommend}</if>
+            <if test="isRelease != null  and isRelease != '' ">and is_release = #{isRelease}</if>
+            <if test="isDelete != null  and isDelete != '' ">and is_delete = #{isDelete}</if>
+            <if test="createTime != null ">and create_time = #{createTime}</if>
+            <if test="updateTime != null ">and update_time = #{updateTime}</if>
+        </where>
+    </select>
+
+    <select id="selectFishArticleById" parameterType="Integer" resultMap="FishArticleResult">
+        <include refid="selectFishArticleVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFishArticle" parameterType="com.salted.fish.common.entity.FishArticle" useGeneratedKeys="true" keyProperty="id">
+        insert into fish_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleLogoUrl != null  and articleLogoUrl != ''  ">article_logo_url,</if>
+            <if test="articleTitle != null  and articleTitle != ''  ">article_title,</if>
+            <if test="articleCode != null  and articleCode != ''  ">article_code,</if>
+            <if test="columnCode != null  and columnCode != ''  ">column_code,</if>
+            <if test="userId != null  and userId != ''  ">user_id,</if>
+            <if test="userHeadUrl != null  and userHeadUrl != ''  ">user_head_url,</if>
+            <if test="userNickname != null  and userNickname != ''  ">user_nickname,</if>
+            <if test="labelCode != null  and labelCode != ''  ">label_code,</if>
+            <if test="labelName != null  and labelName != ''  ">label_name,</if>
+            <if test="isMember != null  and isMember != ''  ">is_member,</if>
+            <if test="isRecommend != null  and isRecommend != ''  ">is_recommend,</if>
+            <if test="isRelease != null  and isRelease != ''  ">is_release,</if>
+            <if test="isDelete != null  and isDelete != ''  ">is_delete,</if>
+            <if test="createTime != null  ">create_time,</if>
+            <if test="updateTime != null  ">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleLogoUrl != null  and articleLogoUrl != ''  ">#{articleLogoUrl},</if>
+            <if test="articleTitle != null  and articleTitle != ''  ">#{articleTitle},</if>
+            <if test="articleCode != null  and articleCode != ''  ">#{articleCode},</if>
+            <if test="columnCode != null  and columnCode != ''  ">#{columnCode},</if>
+            <if test="userId != null  and userId != ''  ">#{userId},</if>
+            <if test="userHeadUrl != null  and userHeadUrl != ''  ">#{userHeadUrl},</if>
+            <if test="userNickname != null  and userNickname != ''  ">#{userNickname},</if>
+            <if test="labelCode != null  and labelCode != ''  ">#{labelCode},</if>
+            <if test="labelName != null  and labelName != ''  ">#{labelName},</if>
+            <if test="isMember != null  and isMember != ''  ">#{isMember},</if>
+            <if test="isRecommend != null  and isRecommend != ''  ">#{isRecommend},</if>
+            <if test="isRelease != null  and isRelease != ''  ">#{isRelease},</if>
+            <if test="isDelete != null  and isDelete != ''  ">#{isDelete},</if>
+            <if test="createTime != null  ">#{createTime},</if>
+            <if test="updateTime != null  ">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFishArticle" parameterType="com.salted.fish.common.entity.FishArticle">
+        update fish_article
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="articleLogoUrl != null  and articleLogoUrl != ''  ">article_logo_url = #{articleLogoUrl},</if>
+            <if test="articleTitle != null  and articleTitle != ''  ">article_title = #{articleTitle},</if>
+            <if test="articleCode != null  and articleCode != ''  ">article_code = #{articleCode},</if>
+            <if test="columnCode != null  and columnCode != ''  ">column_code = #{columnCode},</if>
+            <if test="userId != null  and userId != ''  ">user_id = #{userId},</if>
+            <if test="userHeadUrl != null  and userHeadUrl != ''  ">user_head_url = #{userHeadUrl},</if>
+            <if test="userNickname != null  and userNickname != ''  ">user_nickname = #{userNickname},</if>
+            <if test="labelCode != null  and labelCode != ''  ">label_code = #{labelCode},</if>
+            <if test="labelName != null  and labelName != ''  ">label_name = #{labelName},</if>
+            <if test="isMember != null  and isMember != ''  ">is_member = #{isMember},</if>
+            <if test="isRecommend != null  and isRecommend != ''  ">is_recommend = #{isRecommend},</if>
+            <if test="isRelease != null  and isRelease != ''  ">is_release = #{isRelease},</if>
+            <if test="isDelete != null  and isDelete != ''  ">is_delete = #{isDelete},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFishArticleById" parameterType="Integer">
+        delete
+        from fish_article
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteFishArticleByIds" parameterType="String">
+        delete from fish_article where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

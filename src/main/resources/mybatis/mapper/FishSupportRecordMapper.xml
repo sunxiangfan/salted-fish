@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salted.fish.mapper.FishSupportRecordMapper">
+
+    <resultMap type="com.salted.fish.common.entity.FishSupportRecord" id="FishSupportRecordResult">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="supportType" column="support_type"/>
+        <result property="businessCode" column="business_code"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectFishSupportRecordVo">
+        select id, user_id, support_type, business_code, create_time
+        from fish_support_record
+    </sql>
+
+    <select id="selectFishSupportRecordList" parameterType="com.salted.fish.common.entity.FishSupportRecord" resultMap="FishSupportRecordResult">
+        <include refid="selectFishSupportRecordVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="userId != null  and userId != '' ">and user_id = #{userId}</if>
+            <if test="supportType != null  and supportType != '' ">and support_type = #{supportType}</if>
+            <if test="businessCode != null  and businessCode != '' ">and business_code = #{businessCode}</if>
+            <if test="createTime != null ">and create_time = #{createTime}</if>
+        </where>
+    </select>
+
+    <select id="selectFishSupportRecordById" parameterType="Integer" resultMap="FishSupportRecordResult">
+        <include refid="selectFishSupportRecordVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFishSupportRecord" parameterType="com.salted.fish.common.entity.FishSupportRecord">
+        insert into fish_support_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  ">id,</if>
+            <if test="userId != null  and userId != ''  ">user_id,</if>
+            <if test="supportType != null  and supportType != ''  ">support_type,</if>
+            <if test="businessCode != null  and businessCode != ''  ">business_code,</if>
+            <if test="createTime != null  ">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  ">#{id},</if>
+            <if test="userId != null  and userId != ''  ">#{userId},</if>
+            <if test="supportType != null  and supportType != ''  ">#{supportType},</if>
+            <if test="businessCode != null  and businessCode != ''  ">#{businessCode},</if>
+            <if test="createTime != null  ">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFishSupportRecord" parameterType="com.salted.fish.common.entity.FishSupportRecord">
+        update fish_support_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  and userId != ''  ">user_id = #{userId},</if>
+            <if test="supportType != null  and supportType != ''  ">support_type = #{supportType},</if>
+            <if test="businessCode != null  and businessCode != ''  ">business_code = #{businessCode},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFishSupportRecordById" parameterType="Integer">
+        delete
+        from fish_support_record
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteFishSupportRecordByIds" parameterType="String">
+        delete from fish_support_record where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

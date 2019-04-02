@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salted.fish.mapper.FishArticleContentMapper">
+
+    <resultMap type="com.salted.fish.common.entity.FishArticleContent" id="FishArticleContentResult">
+        <result property="id" column="id"/>
+        <result property="articleCode" column="article_code"/>
+        <result property="articleContent" column="article_content"/>
+        <result property="wordNumber" column="word_number"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectFishArticleContentVo">
+        select id, article_code, article_content, word_number, create_time, update_time
+        from fish_article_content
+    </sql>
+
+    <select id="selectFishArticleContentList" parameterType="com.salted.fish.common.entity.FishArticleContent" resultMap="FishArticleContentResult">
+        <include refid="selectFishArticleContentVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="articleCode != null  and articleCode != '' ">and article_code = #{articleCode}</if>
+            <if test="articleContent != null  and articleContent != '' ">and article_content = #{articleContent}</if>
+            <if test="wordNumber != null  and wordNumber != '' ">and word_number = #{wordNumber}</if>
+            <if test="createTime != null ">and create_time = #{createTime}</if>
+            <if test="updateTime != null ">and update_time = #{updateTime}</if>
+        </where>
+    </select>
+
+    <select id="selectFishArticleContentById" parameterType="Integer" resultMap="FishArticleContentResult">
+        <include refid="selectFishArticleContentVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFishArticleContent" parameterType="com.salted.fish.common.entity.FishArticleContent" useGeneratedKeys="true" keyProperty="id">
+        insert into fish_article_content
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleCode != null  and articleCode != ''  ">article_code,</if>
+            <if test="articleContent != null  and articleContent != ''  ">article_content,</if>
+            <if test="wordNumber != null  and wordNumber != ''  ">word_number,</if>
+            <if test="createTime != null  ">create_time,</if>
+            <if test="updateTime != null  ">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleCode != null  and articleCode != ''  ">#{articleCode},</if>
+            <if test="articleContent != null  and articleContent != ''  ">#{articleContent},</if>
+            <if test="wordNumber != null  and wordNumber != ''  ">#{wordNumber},</if>
+            <if test="createTime != null  ">#{createTime},</if>
+            <if test="updateTime != null  ">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFishArticleContent" parameterType="com.salted.fish.common.entity.FishArticleContent">
+        update fish_article_content
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="articleCode != null  and articleCode != ''  ">article_code = #{articleCode},</if>
+            <if test="articleContent != null  and articleContent != ''  ">article_content = #{articleContent},</if>
+            <if test="wordNumber != null  and wordNumber != ''  ">word_number = #{wordNumber},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFishArticleContentById" parameterType="Integer">
+        delete
+        from fish_article_content
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteFishArticleContentByIds" parameterType="String">
+        delete from fish_article_content where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
