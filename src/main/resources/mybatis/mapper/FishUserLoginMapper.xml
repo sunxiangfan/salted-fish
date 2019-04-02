@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salted.fish.mapper.FishUserLoginMapper">
+
+    <resultMap type="com.salted.fish.common.entity.FishUserLogin" id="FishUserLoginResult">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userStatus" column="user_status"/>
+        <result property="userPassword" column="user_password"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectFishUserLoginVo">
+        select id, user_id, user_phone, user_status, user_password, create_time, update_time
+        from fish_user_login
+    </sql>
+
+    <select id="selectFishUserLoginList" parameterType="com.salted.fish.common.entity.FishUserLogin"
+            resultMap="FishUserLoginResult">
+        <include refid="selectFishUserLoginVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="userId != null  and userId != '' ">and user_id = #{userId}</if>
+            <if test="userPhone != null  and userPhone != '' ">and user_phone = #{userPhone}</if>
+            <if test="userStatus != null  and userStatus != '' ">and user_status = #{userStatus}</if>
+            <if test="userPassword != null  and userPassword != '' ">and user_password = #{userPassword}</if>
+            <if test="createTime != null ">and create_time = #{createTime}</if>
+            <if test="updateTime != null ">and update_time = #{updateTime}</if>
+        </where>
+    </select>
+
+    <select id="selectFishUserLoginById" parameterType="Integer" resultMap="FishUserLoginResult">
+        <include refid="selectFishUserLoginVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFishUserLogin" parameterType="com.salted.fish.common.entity.FishUserLogin" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into fish_user_login
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null  and userId != ''  ">user_id,</if>
+            <if test="userPhone != null  and userPhone != ''  ">user_phone,</if>
+            <if test="userStatus != null  and userStatus != ''  ">user_status,</if>
+            <if test="userPassword != null  and userPassword != ''  ">user_password,</if>
+            <if test="createTime != null  ">create_time,</if>
+            <if test="updateTime != null  ">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null  and userId != ''  ">#{userId},</if>
+            <if test="userPhone != null  and userPhone != ''  ">#{userPhone},</if>
+            <if test="userStatus != null  and userStatus != ''  ">#{userStatus},</if>
+            <if test="userPassword != null  and userPassword != ''  ">#{userPassword},</if>
+            <if test="createTime != null  ">#{createTime},</if>
+            <if test="updateTime != null  ">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFishUserLogin" parameterType="com.salted.fish.common.entity.FishUserLogin">
+        update fish_user_login
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  and userId != ''  ">user_id = #{userId},</if>
+            <if test="userPhone != null  and userPhone != ''  ">user_phone = #{userPhone},</if>
+            <if test="userStatus != null  and userStatus != ''  ">user_status = #{userStatus},</if>
+            <if test="userPassword != null  and userPassword != ''  ">user_password = #{userPassword},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFishUserLoginById" parameterType="Integer">
+        delete
+        from fish_user_login
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteFishUserLoginByIds" parameterType="String">
+        delete from fish_user_login where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salted.fish.mapper.FishUserMapper">
+
+    <resultMap type="com.salted.fish.common.entity.FishUser" id="FishUserResult">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userHeadUrl" column="user_head_url"/>
+        <result property="userNickname" column="user_nickname"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userMail" column="user_mail"/>
+        <result property="userIntroduce" column="user_introduce"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectFishUserVo">
+        select id,
+               user_id,
+               user_head_url,
+               user_nickname,
+               user_phone,
+               user_mail,
+               user_introduce,
+               is_delete,
+               create_time,
+               update_time
+        from fish_user
+    </sql>
+
+    <select id="selectFishUserList" parameterType="com.salted.fish.common.entity.FishUser" resultMap="FishUserResult">
+        <include refid="selectFishUserVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="userId != null  and userId != '' ">and user_id = #{userId}</if>
+            <if test="userHeadUrl != null  and userHeadUrl != '' ">and user_head_url = #{userHeadUrl}</if>
+            <if test="userNickname != null  and userNickname != '' ">and user_nickname = #{userNickname}</if>
+            <if test="userPhone != null  and userPhone != '' ">and user_phone = #{userPhone}</if>
+            <if test="userMail != null  and userMail != '' ">and user_mail = #{userMail}</if>
+            <if test="userIntroduce != null  and userIntroduce != '' ">and user_introduce = #{userIntroduce}</if>
+            <if test="isDelete != null  and isDelete != '' ">and is_delete = #{isDelete}</if>
+            <if test="createTime != null ">and create_time = #{createTime}</if>
+            <if test="updateTime != null ">and update_time = #{updateTime}</if>
+        </where>
+    </select>
+
+    <select id="selectFishUserById" parameterType="Integer" resultMap="FishUserResult">
+        <include refid="selectFishUserVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFishUser" parameterType="com.salted.fish.common.entity.FishUser" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into fish_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null  and userId != ''  ">user_id,</if>
+            <if test="userHeadUrl != null  and userHeadUrl != ''  ">user_head_url,</if>
+            <if test="userNickname != null  and userNickname != ''  ">user_nickname,</if>
+            <if test="userPhone != null  and userPhone != ''  ">user_phone,</if>
+            <if test="userMail != null  and userMail != ''  ">user_mail,</if>
+            <if test="userIntroduce != null  and userIntroduce != ''  ">user_introduce,</if>
+            <if test="isDelete != null  and isDelete != ''  ">is_delete,</if>
+            <if test="createTime != null  ">create_time,</if>
+            <if test="updateTime != null  ">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null  and userId != ''  ">#{userId},</if>
+            <if test="userHeadUrl != null  and userHeadUrl != ''  ">#{userHeadUrl},</if>
+            <if test="userNickname != null  and userNickname != ''  ">#{userNickname},</if>
+            <if test="userPhone != null  and userPhone != ''  ">#{userPhone},</if>
+            <if test="userMail != null  and userMail != ''  ">#{userMail},</if>
+            <if test="userIntroduce != null  and userIntroduce != ''  ">#{userIntroduce},</if>
+            <if test="isDelete != null  and isDelete != ''  ">#{isDelete},</if>
+            <if test="createTime != null  ">#{createTime},</if>
+            <if test="updateTime != null  ">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFishUser" parameterType="com.salted.fish.common.entity.FishUser">
+        update fish_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  and userId != ''  ">user_id = #{userId},</if>
+            <if test="userHeadUrl != null  and userHeadUrl != ''  ">user_head_url = #{userHeadUrl},</if>
+            <if test="userNickname != null  and userNickname != ''  ">user_nickname = #{userNickname},</if>
+            <if test="userPhone != null  and userPhone != ''  ">user_phone = #{userPhone},</if>
+            <if test="userMail != null  and userMail != ''  ">user_mail = #{userMail},</if>
+            <if test="userIntroduce != null  and userIntroduce != ''  ">user_introduce = #{userIntroduce},</if>
+            <if test="isDelete != null  and isDelete != ''  ">is_delete = #{isDelete},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFishUserById" parameterType="Integer">
+        delete
+        from fish_user
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteFishUserByIds" parameterType="String">
+        delete from fish_user where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
