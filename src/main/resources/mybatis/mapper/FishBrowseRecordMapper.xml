@@ -73,4 +73,11 @@
         </foreach>
     </delete>
 
+    <select id="selectReadByBusinessCode" resultType="java.lang.Integer" parameterType="String">
+        select count(*) from (select * from fish_browse_record where business_code = #{businessCode} group by user_id) s
+    </select>
+
+    <select id="selectClickByBusinessCode" resultType="java.lang.Integer" parameterType="String">
+        select count(*) from fish_browse_record where business_code = #{businessCode}
+    </select>
 </mapper>

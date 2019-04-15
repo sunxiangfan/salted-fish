@@ -37,6 +37,10 @@ public class FishArticle {
      */
     private String columnCode;
     /**
+     * 栏目Name
+     */
+    private String columnName;
+    /**
      * 作者ID
      */
     private String userId;
@@ -80,4 +84,12 @@ public class FishArticle {
      * 修改时间
      */
     private Date updateTime;
+    /**
+     * 阅读数
+     */
+    private Integer readNum;
+    /**
+     * 点击数
+     */
+    private Integer clickNum;
 }

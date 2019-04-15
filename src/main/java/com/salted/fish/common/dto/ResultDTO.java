@@ -3,32 +3,22 @@ package com.salted.fish.common.dto;
 
 public class ResultDTO {
 
-    private String code;
-    private String message;
+    private Integer code;
     private Object data;
 
     public static ResultDTO success(Object data) {
         ResultDTO dto = new ResultDTO();
-        dto.setCode("200");
-        dto.setMessage("操作成功");
+        dto.setCode(20000);
         dto.setData(data);
         return dto;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public Object getData() {

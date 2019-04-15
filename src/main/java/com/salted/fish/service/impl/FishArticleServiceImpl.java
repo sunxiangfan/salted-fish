@@ -1,8 +1,11 @@
 package com.salted.fish.service.impl;
 
 import com.salted.fish.common.entity.FishArticle;
+import com.salted.fish.common.entity.FishColumnDict;
 import com.salted.fish.common.util.Convert;
 import com.salted.fish.mapper.FishArticleMapper;
+import com.salted.fish.mapper.FishBrowseRecordMapper;
+import com.salted.fish.mapper.FishColumnDictMapper;
 import com.salted.fish.service.IFishArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +20,13 @@ import java.util.List;
  */
 @Service
 public class FishArticleServiceImpl implements IFishArticleService {
+
     @Autowired
     private FishArticleMapper fishArticleMapper;
+    @Autowired
+    private FishBrowseRecordMapper fishBrowseRecordMapper;
+    @Autowired
+    private FishColumnDictMapper fishColumnDictMapper;
 
     /**
      * 查询文章信息
@@ -39,7 +47,20 @@ public class FishArticleServiceImpl implements IFishArticleService {
      */
     @Override
     public List<FishArticle> selectFishArticleList(FishArticle fishArticle) {
-        return fishArticleMapper.selectFishArticleList(fishArticle);
+        List<FishArticle> fishArticleList = fishArticleMapper.selectFishArticleList(fishArticle);
+        for (int i = 0; i < fishArticleList.size(); i++) {
+            Integer readNum = fishBrowseRecordMapper.selectReadByBusinessCode(fishArticleList.get(i).getArticleCode());
+            Integer clickNum = fishBrowseRecordMapper.selectClickByBusinessCode(fishArticleList.get(i).getArticleCode());
+            FishColumnDict fishColumnDict = new FishColumnDict();
+            fishColumnDict.setColumnCode(fishArticleList.get(i).getColumnCode());
+            List<FishColumnDict> fishColumnDictList = fishColumnDictMapper.selectFishColumnDictList(fishColumnDict);
+            if (null != fishColumnDictList && fishColumnDictList.size() > 0) {
+                fishArticleList.get(i).setColumnName(fishColumnDictList.get(0).getColumnName());
+            }
+            fishArticleList.get(i).setReadNum(readNum);
+            fishArticleList.get(i).setClickNum(clickNum);
+        }
+        return fishArticleList;
     }
 
     /**

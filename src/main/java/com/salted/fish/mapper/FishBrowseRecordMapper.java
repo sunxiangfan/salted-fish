@@ -1,6 +1,7 @@
 package com.salted.fish.mapper;
 
 import com.salted.fish.common.entity.FishBrowseRecord;
+import io.lettuce.core.dynamic.annotation.Param;
 
 import java.util.List;
 
@@ -59,4 +60,19 @@ public interface FishBrowseRecordMapper {
      */
     public int deleteFishBrowseRecordByIds(String[] ids);
 
+    /**
+     * 查询阅读数
+     *
+     * @param businessCode 需要查询的文章Code
+     * @return 结果
+     */
+    public int selectReadByBusinessCode(@Param("businessCode") String businessCode);
+
+    /**
+     * 查询点击数
+     *
+     * @param businessCode 需要查询的文章Code
+     * @return 结果
+     */
+    public int selectClickByBusinessCode(@Param("businessCode") String businessCode);
 }
