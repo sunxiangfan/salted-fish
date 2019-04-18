@@ -20,6 +20,14 @@ public interface IFishUserService {
     public FishUser selectFishUserById(Integer id);
 
     /**
+     * 查询用户信息
+     *
+     * @param userId 用户ID
+     * @return 用户信息
+     */
+    public FishUser selectFishUserByUserId(String userId);
+
+    /**
      * 查询用户列表
      *
      * @param fishUser 用户信息

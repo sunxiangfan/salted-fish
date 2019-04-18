@@ -52,6 +52,11 @@
         where id = #{id}
     </select>
 
+    <select id="selectFishUserByUserId" parameterType="String" resultMap="FishUserResult">
+        <include refid="selectFishUserVo"/>
+        where user_id = #{userId}
+    </select>
+
     <insert id="insertFishUser" parameterType="com.salted.fish.common.entity.FishUser" useGeneratedKeys="true"
             keyProperty="id">
         insert into fish_user

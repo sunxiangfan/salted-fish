@@ -1,4 +1,4 @@
-package com.salted.fish.controller.user;
+package com.salted.fish.controller.admin;
 
 import com.salted.fish.common.dto.ResultDTO;
 import com.salted.fish.common.entity.FishArticle;

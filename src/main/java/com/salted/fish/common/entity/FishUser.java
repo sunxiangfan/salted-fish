@@ -56,4 +56,8 @@ public class FishUser {
      * 修改时间
      */
     private Date updateTime;
+    /**
+     * token
+     */
+    private String token;
 }

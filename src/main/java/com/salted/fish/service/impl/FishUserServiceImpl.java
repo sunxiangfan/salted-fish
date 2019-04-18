@@ -31,6 +31,11 @@ public class FishUserServiceImpl implements IFishUserService {
         return fishUserMapper.selectFishUserById(id);
     }
 
+    @Override
+    public FishUser selectFishUserByUserId(String userId) {
+        return fishUserMapper.selectFishUserByUserId(userId);
+    }
+
     /**
      * 查询用户列表
      *

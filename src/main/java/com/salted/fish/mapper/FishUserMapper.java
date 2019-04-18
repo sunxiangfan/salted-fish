@@ -1,6 +1,7 @@
 package com.salted.fish.mapper;
 
 import com.salted.fish.common.entity.FishUser;
+import io.lettuce.core.dynamic.annotation.Param;
 
 import java.util.List;
 
@@ -18,6 +19,14 @@ public interface FishUserMapper {
      * @return 用户信息
      */
     public FishUser selectFishUserById(Integer id);
+
+    /**
+     * 查询用户信息
+     *
+     * @param userId 用户ID
+     * @return 用户信息
+     */
+    public FishUser selectFishUserByUserId(@Param("userId") String userId);
 
     /**
      * 查询用户列表
