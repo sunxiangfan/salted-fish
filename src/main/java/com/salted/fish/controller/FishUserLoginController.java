@@ -74,6 +74,7 @@ public class FishUserLoginController {
         try {
             String code = redisTemplate.opsForValue().get("SMS" + body.getUserPhone());
             if (null != code && code.equals(body.getCode())) {
+                redisTemplate.delete("SMS" + body.getUserPhone());
                 return ResultDTO.success();
             } else {
                 return ResultDTO.fail("验证码不正确");
@@ -96,7 +97,7 @@ public class FishUserLoginController {
             FishUserLogin fishUserLogin = new FishUserLogin();
             fishUserLogin.setUserPhone(body.getUserPhone());
             List<FishUserLogin> userList = fishUserLoginService.selectFishUserLoginList(fishUserLogin);
-            if (null != userList || userList.size() == 1) {
+            if (null != userList && userList.size() == 1) {
                 return ResultDTO.fail("用户已存在");
             }
             FishUser fishUser = new FishUser();
