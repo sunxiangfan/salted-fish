@@ -53,8 +53,8 @@ public class FishUserLoginController {
             if (null != check && check.equals("CHECK")) {
                 return ResultDTO.fail("验证码发送频繁，请一分钟之后再试");
             }
-            String code = (String.valueOf((Math.random() * 9 + 1) * 100000));
-            redisTemplate.opsForValue().set("SMS" + body.getUserPhone(), code, 5, TimeUnit.MINUTES);
+            int code = (int) ((Math.random() * 9 + 1) * 100000);
+            redisTemplate.opsForValue().set("SMS" + body.getUserPhone(), String.valueOf(code), 5, TimeUnit.MINUTES);
             redisTemplate.opsForValue().set("CHECK" + body.getUserPhone(), "CHECK", 1, TimeUnit.MINUTES);
             return ResultDTO.success(code);
         } catch (Exception e) {
