@@ -37,9 +37,7 @@ public class FishArticleController {
     public ResultDTO selectFishArticleList(@RequestBody FishArticle fishArticle) {
         log.info("selectFishArticleList：" + JSON.toJSONString(fishArticle));
         try {
-            PageHelper.startPage(fishArticle.getPageNum(), fishArticle.getPageSize());
-            List<FishArticle> fishArticleList = fishArticleService.selectFishArticleList(fishArticle);
-            PageInfo<FishArticle> pageInfo = new PageInfo<FishArticle>(fishArticleList);
+            PageInfo<FishArticle> pageInfo = fishArticleService.selectFishArticleList(fishArticle);
             return ResultDTO.success(pageInfo);
         } catch (Exception e) {
             log.error("selectFishArticleList error", e);

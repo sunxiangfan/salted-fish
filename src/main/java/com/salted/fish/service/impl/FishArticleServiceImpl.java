@@ -1,5 +1,7 @@
 package com.salted.fish.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.salted.fish.common.entity.FishArticle;
 import com.salted.fish.common.entity.FishColumnDict;
 import com.salted.fish.common.util.Convert;
@@ -46,21 +48,23 @@ public class FishArticleServiceImpl implements IFishArticleService {
      * @return 文章集合
      */
     @Override
-    public List<FishArticle> selectFishArticleList(FishArticle fishArticle) {
+    public PageInfo<FishArticle> selectFishArticleList(FishArticle fishArticle) {
+        PageHelper.startPage(fishArticle.getPageNum(), fishArticle.getPageSize());
         List<FishArticle> fishArticleList = fishArticleMapper.selectFishArticleList(fishArticle);
-        for (int i = 0; i < fishArticleList.size(); i++) {
-            Integer readNum = fishBrowseRecordMapper.selectReadByBusinessCode(fishArticleList.get(i).getArticleCode());
-            Integer clickNum = fishBrowseRecordMapper.selectClickByBusinessCode(fishArticleList.get(i).getArticleCode());
+        PageInfo<FishArticle> pageInfo = new PageInfo<FishArticle>(fishArticleList);
+        for (int i = 0; i < pageInfo.getList().size(); i++) {
+            Integer readNum = fishBrowseRecordMapper.selectReadByBusinessCode(pageInfo.getList().get(i).getArticleCode());
+            Integer clickNum = fishBrowseRecordMapper.selectClickByBusinessCode(pageInfo.getList().get(i).getArticleCode());
             FishColumnDict fishColumnDict = new FishColumnDict();
-            fishColumnDict.setColumnCode(fishArticleList.get(i).getColumnCode());
+            fishColumnDict.setColumnCode(pageInfo.getList().get(i).getColumnCode());
             List<FishColumnDict> fishColumnDictList = fishColumnDictMapper.selectFishColumnDictList(fishColumnDict);
             if (null != fishColumnDictList && fishColumnDictList.size() > 0) {
-                fishArticleList.get(i).setColumnName(fishColumnDictList.get(0).getColumnName());
+                pageInfo.getList().get(i).setColumnName(fishColumnDictList.get(0).getColumnName());
             }
-            fishArticleList.get(i).setReadNum(readNum);
-            fishArticleList.get(i).setClickNum(clickNum);
+            pageInfo.getList().get(i).setReadNum(readNum);
+            pageInfo.getList().get(i).setClickNum(clickNum);
         }
-        return fishArticleList;
+        return pageInfo;
     }
 
     /**

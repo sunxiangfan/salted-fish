@@ -1,5 +1,6 @@
 package com.salted.fish.service;
 
+import com.github.pagehelper.PageInfo;
 import com.salted.fish.common.entity.FishArticle;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public interface IFishArticleService {
      * @param fishArticle 文章信息
      * @return 文章集合
      */
-    public List<FishArticle> selectFishArticleList(FishArticle fishArticle);
+    public PageInfo<FishArticle> selectFishArticleList(FishArticle fishArticle);
 
     /**
      * 新增文章
