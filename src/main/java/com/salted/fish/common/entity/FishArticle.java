@@ -12,7 +12,7 @@ import java.util.Date;
  * @date 2019-04-02
  */
 @Data
-public class FishArticle {
+public class FishArticle extends PageInfo{
 
     private static final long serialVersionUID = 1L;
 

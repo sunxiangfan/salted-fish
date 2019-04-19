@@ -12,7 +12,7 @@ import java.util.Date;
  * @date 2019-04-19
  */
 @Data
-public class FishVideo {
+public class FishVideo extends PageInfo{
 
     /**
      * 主键ID
