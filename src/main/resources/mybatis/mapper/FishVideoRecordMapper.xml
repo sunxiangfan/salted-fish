@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salted.fish.mapper.FishVideoRecordMapper">
+
+    <resultMap type="com.salted.fish.common.entity.FishVideoRecord" id="FishVideoRecordResult">
+        <result property="id" column="id"/>
+        <result property="videoCode" column="video_code"/>
+        <result property="chapterCode" column="chapter_code"/>
+        <result property="videoRecordUrl" column="video_record_url"/>
+        <result property="videoRecordSort" column="video_record_sort"/>
+        <result property="videoRecordType" column="video_record_type"/>
+        <result property="videoRecordTitle" column="video_record_title"/>
+        <result property="videoRecordTime" column="video_record_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectFishVideoRecordVo">
+        select id,
+               video_code,
+               chapter_code,
+               video_record_url,
+               video_record_sort,
+               video_record_type,
+               video_record_title,
+               video_record_time,
+               create_time,
+               update_time
+        from fish_video_record
+    </sql>
+
+    <select id="selectFishVideoRecordList" parameterType="com.salted.fish.common.entity.FishVideoRecord"
+            resultMap="FishVideoRecordResult">
+        <include refid="selectFishVideoRecordVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="videoCode != null  and videoCode != '' ">and video_code = #{videoCode}</if>
+            <if test="chapterCode != null  and chapterCode != '' ">and chapter_code = #{chapterCode}</if>
+            <if test="videoRecordUrl != null  and videoRecordUrl != '' ">and video_record_url = #{videoRecordUrl}</if>
+            <if test="videoRecordSort != null  and videoRecordSort != '' ">and video_record_sort = #{videoRecordSort}
+            </if>
+            <if test="videoRecordType != null  and videoRecordType != '' ">and video_record_type = #{videoRecordType}
+            </if>
+            <if test="videoRecordTitle != null  and videoRecordTitle != '' ">and video_record_title =
+                #{videoRecordTitle}
+            </if>
+            <if test="videoRecordTime != null  and videoRecordTime != '' ">and video_record_time = #{videoRecordTime}
+            </if>
+            <if test="createTime != null ">and create_time = #{createTime}</if>
+            <if test="updateTime != null ">and update_time = #{updateTime}</if>
+        </where>
+    </select>
+
+    <select id="selectFishVideoRecordById" parameterType="Integer" resultMap="FishVideoRecordResult">
+        <include refid="selectFishVideoRecordVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFishVideoRecord" parameterType="com.salted.fish.common.entity.FishVideoRecord"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into fish_video_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="videoCode != null  and videoCode != ''  ">video_code,</if>
+            <if test="chapterCode != null  and chapterCode != ''  ">chapter_code,</if>
+            <if test="videoRecordUrl != null  and videoRecordUrl != ''  ">video_record_url,</if>
+            <if test="videoRecordSort != null  and videoRecordSort != ''  ">video_record_sort,</if>
+            <if test="videoRecordType != null  and videoRecordType != ''  ">video_record_type,</if>
+            <if test="videoRecordTitle != null  and videoRecordTitle != ''  ">video_record_title,</if>
+            <if test="videoRecordTime != null  and videoRecordTime != ''  ">video_record_time,</if>
+            <if test="createTime != null  ">create_time,</if>
+            <if test="updateTime != null  ">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="videoCode != null  and videoCode != ''  ">#{videoCode},</if>
+            <if test="chapterCode != null  and chapterCode != ''  ">#{chapterCode},</if>
+            <if test="videoRecordUrl != null  and videoRecordUrl != ''  ">#{videoRecordUrl},</if>
+            <if test="videoRecordSort != null  and videoRecordSort != ''  ">#{videoRecordSort},</if>
+            <if test="videoRecordType != null  and videoRecordType != ''  ">#{videoRecordType},</if>
+            <if test="videoRecordTitle != null  and videoRecordTitle != ''  ">#{videoRecordTitle},</if>
+            <if test="videoRecordTime != null  and videoRecordTime != ''  ">#{videoRecordTime},</if>
+            <if test="createTime != null  ">#{createTime},</if>
+            <if test="updateTime != null  ">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFishVideoRecord" parameterType="com.salted.fish.common.entity.FishVideoRecord">
+        update fish_video_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="videoCode != null  and videoCode != ''  ">video_code = #{videoCode},</if>
+            <if test="chapterCode != null  and chapterCode != ''  ">chapter_code = #{chapterCode},</if>
+            <if test="videoRecordUrl != null  and videoRecordUrl != ''  ">video_record_url = #{videoRecordUrl},</if>
+            <if test="videoRecordSort != null  and videoRecordSort != ''  ">video_record_sort = #{videoRecordSort},</if>
+            <if test="videoRecordType != null  and videoRecordType != ''  ">video_record_type = #{videoRecordType},</if>
+            <if test="videoRecordTitle != null  and videoRecordTitle != ''  ">video_record_title =
+                #{videoRecordTitle},
+            </if>
+            <if test="videoRecordTime != null  and videoRecordTime != ''  ">video_record_time = #{videoRecordTime},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFishVideoRecordById" parameterType="Integer">
+        delete
+        from fish_video_record
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteFishVideoRecordByIds" parameterType="String">
+        delete from fish_video_record where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

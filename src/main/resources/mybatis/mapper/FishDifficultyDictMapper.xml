@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salted.fish.mapper.FishDifficultyDictMapper">
+
+    <resultMap type="com.salted.fish.common.entity.FishDifficultyDict" id="FishDifficultyDictResult">
+        <result property="id" column="id"/>
+        <result property="difficultyCode" column="difficulty_code"/>
+        <result property="difficultyName" column="difficulty_name"/>
+    </resultMap>
+
+    <sql id="selectFishDifficultyDictVo">
+        select id, difficulty_code, difficulty_name
+        from fish_difficulty_dict
+    </sql>
+
+    <select id="selectFishDifficultyDictList" parameterType="com.salted.fish.common.entity.FishDifficultyDict"
+            resultMap="FishDifficultyDictResult">
+        <include refid="selectFishDifficultyDictVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="difficultyCode != null  and difficultyCode != '' ">and difficulty_code = #{difficultyCode}</if>
+            <if test="difficultyName != null  and difficultyName != '' ">and difficulty_name = #{difficultyName}</if>
+        </where>
+    </select>
+
+    <select id="selectFishDifficultyDictById" parameterType="Integer" resultMap="FishDifficultyDictResult">
+        <include refid="selectFishDifficultyDictVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFishDifficultyDict" parameterType="com.salted.fish.common.entity.FishDifficultyDict"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into fish_difficulty_dict
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="difficultyCode != null  and difficultyCode != ''  ">difficulty_code,</if>
+            <if test="difficultyName != null  and difficultyName != ''  ">difficulty_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="difficultyCode != null  and difficultyCode != ''  ">#{difficultyCode},</if>
+            <if test="difficultyName != null  and difficultyName != ''  ">#{difficultyName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFishDifficultyDict" parameterType="com.salted.fish.common.entity.FishDifficultyDict">
+        update fish_difficulty_dict
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="difficultyCode != null  and difficultyCode != ''  ">difficulty_code = #{difficultyCode},</if>
+            <if test="difficultyName != null  and difficultyName != ''  ">difficulty_name = #{difficultyName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFishDifficultyDictById" parameterType="Integer">
+        delete
+        from fish_difficulty_dict
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteFishDifficultyDictByIds" parameterType="String">
+        delete from fish_difficulty_dict where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

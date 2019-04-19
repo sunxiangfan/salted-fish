@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salted.fish.mapper.FishVideoChapterMapper">
+
+    <resultMap type="com.salted.fish.common.entity.FishVideoChapter" id="FishVideoChapterResult">
+        <result property="id" column="id"/>
+        <result property="videoCode" column="video_code"/>
+        <result property="chapterCode" column="chapter_code"/>
+        <result property="chapterDescribe" column="chapter_describe"/>
+        <result property="chapterTitle" column="chapter_title"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectFishVideoChapterVo">
+        select id, video_code, chapter_code, chapter_describe, chapter_title, create_time, update_time
+        from fish_video_chapter
+    </sql>
+
+    <select id="selectFishVideoChapterList" parameterType="com.salted.fish.common.entity.FishVideoChapter"
+            resultMap="FishVideoChapterResult">
+        <include refid="selectFishVideoChapterVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="videoCode != null  and videoCode != '' ">and video_code = #{videoCode}</if>
+            <if test="chapterCode != null  and chapterCode != '' ">and chapter_code = #{chapterCode}</if>
+            <if test="chapterDescribe != null  and chapterDescribe != '' ">and chapter_describe = #{chapterDescribe}
+            </if>
+            <if test="chapterTitle != null  and chapterTitle != '' ">and chapter_title = #{chapterTitle}</if>
+            <if test="createTime != null ">and create_time = #{createTime}</if>
+            <if test="updateTime != null ">and update_time = #{updateTime}</if>
+        </where>
+    </select>
+
+    <select id="selectFishVideoChapterById" parameterType="Integer" resultMap="FishVideoChapterResult">
+        <include refid="selectFishVideoChapterVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFishVideoChapter" parameterType="com.salted.fish.common.entity.FishVideoChapter"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into fish_video_chapter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="videoCode != null  and videoCode != ''  ">video_code,</if>
+            <if test="chapterCode != null  and chapterCode != ''  ">chapter_code,</if>
+            <if test="chapterDescribe != null  and chapterDescribe != ''  ">chapter_describe,</if>
+            <if test="chapterTitle != null  and chapterTitle != ''  ">chapter_title,</if>
+            <if test="createTime != null  ">create_time,</if>
+            <if test="updateTime != null  ">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="videoCode != null  and videoCode != ''  ">#{videoCode},</if>
+            <if test="chapterCode != null  and chapterCode != ''  ">#{chapterCode},</if>
+            <if test="chapterDescribe != null  and chapterDescribe != ''  ">#{chapterDescribe},</if>
+            <if test="chapterTitle != null  and chapterTitle != ''  ">#{chapterTitle},</if>
+            <if test="createTime != null  ">#{createTime},</if>
+            <if test="updateTime != null  ">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFishVideoChapter" parameterType="com.salted.fish.common.entity.FishVideoChapter">
+        update fish_video_chapter
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="videoCode != null  and videoCode != ''  ">video_code = #{videoCode},</if>
+            <if test="chapterCode != null  and chapterCode != ''  ">chapter_code = #{chapterCode},</if>
+            <if test="chapterDescribe != null  and chapterDescribe != ''  ">chapter_describe = #{chapterDescribe},</if>
+            <if test="chapterTitle != null  and chapterTitle != ''  ">chapter_title = #{chapterTitle},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFishVideoChapterById" parameterType="Integer">
+        delete
+        from fish_video_chapter
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteFishVideoChapterByIds" parameterType="String">
+        delete from fish_video_chapter where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
