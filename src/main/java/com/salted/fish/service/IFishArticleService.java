@@ -1,6 +1,7 @@
 package com.salted.fish.service;
 
 import com.github.pagehelper.PageInfo;
+import com.salted.fish.common.dto.FishArticleDTO;
 import com.salted.fish.common.entity.FishArticle;
 
 import java.util.List;
@@ -23,10 +24,10 @@ public interface IFishArticleService {
     /**
      * 查询文章列表
      *
-     * @param fishArticle 文章信息
+     * @param dto 文章信息
      * @return 文章集合
      */
-    public PageInfo<FishArticle> selectFishArticleList(FishArticle fishArticle);
+    public PageInfo<FishArticle> selectFishArticleList(FishArticleDTO dto);
 
     /**
      * 新增文章

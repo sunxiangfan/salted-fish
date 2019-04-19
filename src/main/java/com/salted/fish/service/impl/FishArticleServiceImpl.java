@@ -2,6 +2,7 @@ package com.salted.fish.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.salted.fish.common.dto.FishArticleDTO;
 import com.salted.fish.common.entity.FishArticle;
 import com.salted.fish.common.entity.FishColumnDict;
 import com.salted.fish.common.util.Convert;
@@ -9,6 +10,7 @@ import com.salted.fish.mapper.FishArticleMapper;
 import com.salted.fish.mapper.FishBrowseRecordMapper;
 import com.salted.fish.mapper.FishColumnDictMapper;
 import com.salted.fish.service.IFishArticleService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,12 +46,14 @@ public class FishArticleServiceImpl implements IFishArticleService {
     /**
      * 查询文章列表
      *
-     * @param fishArticle 文章信息
+     * @param dto 文章信息
      * @return 文章集合
      */
     @Override
-    public PageInfo<FishArticle> selectFishArticleList(FishArticle fishArticle) {
-        PageHelper.startPage(fishArticle.getPageNum(), fishArticle.getPageSize());
+    public PageInfo<FishArticle> selectFishArticleList(FishArticleDTO dto) {
+        FishArticle fishArticle = new FishArticle();
+        BeanUtils.copyProperties(dto, fishArticle);
+        PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
         List<FishArticle> fishArticleList = fishArticleMapper.selectFishArticleList(fishArticle);
         PageInfo<FishArticle> pageInfo = new PageInfo<FishArticle>(fishArticleList);
         for (int i = 0; i < pageInfo.getList().size(); i++) {

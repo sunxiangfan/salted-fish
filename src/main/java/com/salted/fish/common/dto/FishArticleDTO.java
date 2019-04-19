@@ -1,18 +1,12 @@
-package com.salted.fish.common.entity;
+package com.salted.fish.common.dto;
 
-
+import com.salted.fish.common.entity.PageInfo;
 import lombok.Data;
 
 import java.util.Date;
 
-/**
- * 文章表 fish_article
- *
- * @author shop
- * @date 2019-04-02
- */
 @Data
-public class FishArticle{
+public class FishArticleDTO extends PageInfo {
 
     /**
      * 主键ID
