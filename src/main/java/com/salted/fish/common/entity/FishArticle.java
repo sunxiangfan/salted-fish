@@ -75,14 +75,6 @@ public class FishArticle{
      */
     private String isDelete;
     /**
-     * 创建时间
-     */
-    private Date createTime;
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
-    /**
      * 阅读数
      */
     private Integer readNum;
@@ -90,4 +82,12 @@ public class FishArticle{
      * 点击数
      */
     private Integer clickNum;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+    /**
+     * 修改时间
+     */
+    private Date updateTime;
 }
