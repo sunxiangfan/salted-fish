@@ -1,6 +1,7 @@
-package com.salted.fish.common.entity;
+package com.salted.fish.common.dto;
 
 
+import com.salted.fish.common.entity.PageInfo;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,7 +13,7 @@ import java.util.Date;
  * @date 2019-04-19
  */
 @Data
-public class FishVideo{
+public class FishVideoDTO extends PageInfo {
 
     /**
      * 主键ID
@@ -82,10 +83,6 @@ public class FishVideo{
      * 是否删除
      */
     private String isDelete;
-    /**
-     * 观看人数
-     */
-    private Integer visitorsNum;
     /**
      * 创建时间
      */

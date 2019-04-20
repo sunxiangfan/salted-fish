@@ -1,9 +1,14 @@
 package com.salted.fish.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.salted.fish.common.dto.FishVideoDTO;
+import com.salted.fish.common.entity.FishArticle;
 import com.salted.fish.common.entity.FishVideo;
 import com.salted.fish.common.util.Convert;
 import com.salted.fish.mapper.FishVideoMapper;
 import com.salted.fish.service.IFishVideoService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,12 +40,17 @@ public class FishVideoServiceImpl implements IFishVideoService {
     /**
      * 查询视频列表
      *
-     * @param fishVideo 视频信息
+     * @param dto 视频信息
      * @return 视频集合
      */
     @Override
-    public List<FishVideo> selectFishVideoList(FishVideo fishVideo) {
-        return fishVideoMapper.selectFishVideoList(fishVideo);
+    public PageInfo<FishVideo> selectFishVideoList(FishVideoDTO dto) {
+        FishVideo fishVideo = new FishVideo();
+        BeanUtils.copyProperties(dto, fishVideo);
+        PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
+        List<FishVideo> fishVideoList = fishVideoMapper.selectFishVideoList(fishVideo);
+        PageInfo<FishVideo> pageInfo = new PageInfo<FishVideo>(fishVideoList);
+        return pageInfo;
     }
 
     /**

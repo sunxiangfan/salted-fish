@@ -1,5 +1,7 @@
 package com.salted.fish.service;
 
+import com.github.pagehelper.PageInfo;
+import com.salted.fish.common.dto.FishVideoDTO;
 import com.salted.fish.common.entity.FishVideo;
 
 import java.util.List;
@@ -25,7 +27,7 @@ public interface IFishVideoService {
      * @param fishVideo 视频信息
      * @return 视频集合
      */
-    public List<FishVideo> selectFishVideoList(FishVideo fishVideo);
+    public PageInfo<FishVideo> selectFishVideoList(FishVideoDTO dto);
 
     /**
      * 新增视频

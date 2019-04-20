@@ -3,6 +3,7 @@ package com.salted.fish.controller;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.salted.fish.common.dto.FishVideoDTO;
 import com.salted.fish.common.dto.ResultDTO;
 import com.salted.fish.common.entity.FishVideo;
 import com.salted.fish.service.IFishVideoService;
@@ -30,12 +31,10 @@ public class FishVideoController {
 
     @CrossOrigin
     @PostMapping("selectFishVideoList")
-    public ResultDTO selectFishVideoList(@RequestBody FishVideo fishVideo) {
-        log.info("selectFishVideoList：" + JSON.toJSONString(fishVideo));
+    public ResultDTO selectFishVideoList(@RequestBody FishVideoDTO dto) {
+        log.info("selectFishVideoList：" + JSON.toJSONString(dto));
         try {
-            PageHelper.startPage(fishVideo.getPageNum(), fishVideo.getPageSize());
-            List<FishVideo> fishArticleList = fishVideoService.selectFishVideoList(fishVideo);
-            PageInfo<FishVideo> pageInfo = new PageInfo<FishVideo>(fishArticleList);
+            PageInfo<FishVideo> pageInfo = fishVideoService.selectFishVideoList(dto);
             return ResultDTO.success(pageInfo);
         } catch (Exception e) {
             log.error("selectFishVideoList error", e);
